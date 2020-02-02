@@ -19,12 +19,15 @@ async function playGame() {
     }
     printBoard(board);
     if (isGameFinished(board)) {
+      console.log(`Player ${move} has won.`);
       break;
     }
     if (isDraw(board)) {
       console.log("Draw");
       break;
     }
+    //change current playerr
+    move = changePlayer(move);
   }
   console.log("Test");
 }
@@ -93,12 +96,91 @@ function makeMove(coords, board) {
   let tempBoard = board;
   tempBoard[coords[0] - 1][coords[1] - 1] = move;
   //change move
-  move = move === "x" ? "o" : "x";
+
   return tempBoard;
+}
+
+//change current player
+function changePlayer(move) {
+  return move = move === "x" ? "o" : "x";
 }
 
 //check for a winner
 function isGameFinished(board) {
+  let similar = 0;
+  //rows
+  for(let i = 0; i < board.length; i++) {
+    for(let j = 0; j < board.length; j++) {
+      if(board[i][j] === null) {
+        break;
+      }
+      if(j > 0 && board[i][j] != board[i][j - 1]) {
+        break;
+      }
+      similar++;
+    }
+    if(similar === 3) {
+      return true;
+    } else {
+      similar = 0;
+    }
+  }
+  //columns
+  for(let i = 0; i < board.length; i++) {
+    for(let j = 0; j < board.length; j++) {
+      if(board[j][i] === null) {
+        break;
+      }
+      if(j > 0 && board[j][i] != board[j][i - 1]) {
+        break;
+      }
+    }
+    if(similar === 3) {
+      return true;
+    } else {
+      similar = 0;
+    }
+  }
+  //diagonals
+  for(let i = 0; i < board.length; i++) {
+    for(let j = 0; j < board.length; j++) {
+      if(j > i) {
+        break;
+      }
+      if(j < i) {
+        continue;
+      }
+      if(board[i][j] === null) {
+        break;
+      }
+      if(j > 0 && board[i][j] != board[i - 1][j - 1]) {
+        break;
+      }
+    }
+    if(similar === 3) {
+      return true;
+    } else {
+      similar = 0;
+    }
+  }
+  for(let i = 0; i < board.length; i++) {
+    for(let j = board.length - 1; j >= 0; j--) {
+      if(Math.abs(j - i) !== 1 || j !== i) {
+        continue;
+      }
+      if(board[i][j] === null) {
+        break;
+      }
+      if(j < board.length - 1 && board[i][j] != board[i - 1][j + 1]) {
+        break;
+      }
+    }
+    if(similar === 3) {
+      return true;
+    } else {
+      similar = 0;
+    }
+  }
   return false;
 }
 //check for a draw
