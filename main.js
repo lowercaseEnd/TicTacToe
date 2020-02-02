@@ -3,6 +3,9 @@
 
 const readline =  require("readline");
 
+//variable to track current move, starts with x.
+let move = "x";
+
 //init board
 function initBoard(row = 3, column = 3) {
   //force board to be square
@@ -27,7 +30,7 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 let board = initBoard();
-getInput()
+getCoordinates()
 .then((row) => {
   // console.log("Row: " + row);
   return new Promise((resolve) => {
@@ -42,10 +45,10 @@ getInput()
   // console.log("Column: " + value);
   // console.log(value);
   console.log(isInputCorrect(value, board));
-  printBoard([["x", "o", null], [null, "o", null], ["x", null, null]]);
+  printBoard([["x", "o", null, "x"], [null, "o", null, "o"], ["x", null, null, "x"], ["x", null, null, null]]);
 });
-//user will input numbers from 1 instead of 0
-function getInput() {
+//user entered numbers should be on 1 greater than array indexes
+function getCoordinates() {
   return new Promise ((resolve) => {
     rl.question("Enter row: ", (row) => {
       rl.pause();
@@ -53,12 +56,6 @@ function getInput() {
     });
   });
 }
-
-//check for end of the game
-function isGameFinished() {
-
-}
-
 //validate user input
 function isInputCorrect(userInput, board){
   //check for valid number
@@ -71,16 +68,34 @@ function isInputCorrect(userInput, board){
   if(numberRow - 1 >= board.length || numberColumn - 1 >= board[0].length) {
     return false;
   }
+  //check if cell is empty
+  if(board[numberRow - 1][numberColumn - 1]) {
+    return false;
+  }
 
   return true;
 }
+//make a move
+function makeMove(move, board) {
+  let tempBoard = board;
+  tempBoard[move[0]][move[1]] = move;
+  //change move
+  move = move === "x" ? "o" : "x";
+  return board;
+}
+
+//check for end of the game
+function isGameFinished() {
+
+}
+
 
 //pretty print board
 function printBoard(board) {
   //using string concat because console.log always puts a \n
   let prettyPrint = "";
   for(let i = 0; i < board.length; i++) {
-    prettyPrint += `\t${i}\t`;
+    prettyPrint += `\t${i + 1}\t`;
     if(board.length - i !== 1) {
       prettyPrint += "|";
     }
@@ -91,7 +106,7 @@ function printBoard(board) {
   }
   prettyPrint += "\n";
   for(let i = 0; i < board.length; i++) {
-    prettyPrint += `${i}|`;
+    prettyPrint += `${i + 1}|`;
     for(let j = 0; j < board[i].length; j++) {
       let value = board[i][j] === null ? "\t\t|" : `\t${board[i][j]}\t|`;
       prettyPrint += value;
