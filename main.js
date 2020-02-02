@@ -26,11 +26,26 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
-getInput();
+console.log(initBoard());
+getInput()
+.then((value) => {
+  console.log("Row: " + value);
+  return new Promise((resolve, reject) => {
+    rl.resume();
+    rl.question("Enter column: ", (value) => {
+      rl.close();
+      resolve(value);
+  })
+})
+})
+.then((value) => {
+  console.log("Column: " + value);
+});
 function getInput() {
-  rl.question("?", () => {
-    console.log("YES");
-    rl.close();
+  return new Promise ((resolve, reject) => {
+    rl.question("Enter row: ", (value) => {
+      rl.pause();
+      resolve(value)
+    });
   });
 }
-console.log(initBoard());
