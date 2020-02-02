@@ -7,13 +7,22 @@ const readline = require("readline");
 let move = "x";
 playGame();
 async function playGame() {
+  let board = initBoard();
   while (true) {
-    let board = initBoard();
     let userInput;
-    await getCoordinates().then(res => userInput = res);
-    if(isInputCorrect(userInput, board)) {
-      continue;
+    await getCoordinates().then(res => (userInput = res));
+    if (isInputCorrect(userInput, board)) {
+      board = makeMove(userInput, board);
     } else {
+      console.log("You've entered wrong values.");
+      continue;
+    }
+    printBoard(board);
+    if (isGameFinished(board)) {
+      break;
+    }
+    if (isDraw(board)) {
+      console.log("Draw");
       break;
     }
   }
@@ -49,17 +58,16 @@ function getCoordinates() {
       rl.pause();
       resolve(row);
     });
-  })
-  .then(row => {
-      return new Promise(resolve => {
-        rl.resume();
-        rl.question("Enter column: ", column => {
-          rl.close();
-          resolve([row, column]);
-        });
+  }).then(row => {
+    return new Promise(resolve => {
+      rl.resume();
+      rl.question("Enter column: ", column => {
+        rl.close();
+        resolve([row, column]);
       });
     });
-    return coords;
+  });
+  return coords;
 }
 //validate user input
 function isInputCorrect(userInput, board) {
@@ -81,16 +89,29 @@ function isInputCorrect(userInput, board) {
   return true;
 }
 //make a move
-function makeMove(move, board) {
+function makeMove(coords, board) {
   let tempBoard = board;
-  tempBoard[move[0]][move[1]] = move;
+  tempBoard[coords[0] - 1][coords[1] - 1] = move;
   //change move
   move = move === "x" ? "o" : "x";
-  return board;
+  return tempBoard;
 }
 
-//check for end of the game
-function isGameFinished() {}
+//check for a winner
+function isGameFinished(board) {
+  return false;
+}
+//check for a draw
+function isDraw(board) {
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[i].length; j++) {
+      if (board[i][j] === null) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
 //pretty print board
 function printBoard(board) {
