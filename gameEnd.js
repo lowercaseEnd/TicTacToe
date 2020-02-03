@@ -57,9 +57,10 @@ class GameEnd {
       if(board[i][board[i].length - 1 - i] === null) {
         break;
       }
-      if(i > 0 && board[i][board[i].length - 1 - i] !== board[i][board[i + 1].length - 1 - i + 1]) {
+      if(i > 0 && board[i][board[i].length - 1 - i] !== board[i - 1][board[i].length - i]) {
         break;
       }
+      similar++;
     }
     if (similar === 3) {
       return true;
