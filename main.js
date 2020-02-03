@@ -9,6 +9,7 @@ playGame();
 async function playGame() {
   let board = initBoard();
   while (true) {
+    printBoard(board);
     let userInput;
     await getCoordinates().then(res => (userInput = res));
     if (isInputCorrect(userInput, board)) {
@@ -102,84 +103,78 @@ function makeMove(coords, board) {
 
 //change current player
 function changePlayer(move) {
-  return move = move === "x" ? "o" : "x";
+  return (move = move === "x" ? "o" : "x");
 }
 
 //check for a winner
 function isGameFinished(board) {
   let similar = 0;
   //rows
-  for(let i = 0; i < board.length; i++) {
-    for(let j = 0; j < board.length; j++) {
-      if(board[i][j] === null) {
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board.length; j++) {
+      if (board[i][j] === null) {
         break;
       }
-      if(j > 0 && board[i][j] != board[i][j - 1]) {
+      if (j > 0 && board[i][j] != board[i][j - 1]) {
         break;
       }
       similar++;
     }
-    if(similar === 3) {
+    if (similar === 3) {
       return true;
     } else {
       similar = 0;
     }
   }
   //columns
-  for(let i = 0; i < board.length; i++) {
-    for(let j = 0; j < board.length; j++) {
-      if(board[j][i] === null) {
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board.length; j++) {
+      if (board[j][i] === null) {
         break;
       }
-      if(j > 0 && board[j][i] != board[j][i - 1]) {
+      if (j > 0 && board[j][i] != board[j][i - 1]) {
         break;
       }
     }
-    if(similar === 3) {
+    if (similar === 3) {
       return true;
     } else {
       similar = 0;
     }
   }
   //diagonals
-  for(let i = 0; i < board.length; i++) {
-    for(let j = 0; j < board.length; j++) {
-      if(j > i) {
-        break;
-      }
-      if(j < i) {
-        continue;
-      }
-      if(board[i][j] === null) {
-        break;
-      }
-      if(j > 0 && board[i][j] != board[i - 1][j - 1]) {
-        break;
-      }
+  for (let i = 0; i < board.length; i++) {
+    let j = i;
+    if (board[i][j] === null) {
+      break;
     }
-    if(similar === 3) {
-      return true;
-    } else {
-      similar = 0;
+    if (j > 0 && board[i][j] !== board[i - 1][j - 1]) {
+      break;
+    }
+    similar++;
+  }
+  if (similar === 3) {
+    return true;
+  } else {
+    similar = 0;
+  }
+  for (let i = 0; i < board.length; i++) {
+    for (let j = board[i].length - 1; j >= 0; j--) {
+      if (j === i || Math.abs(j - i) >= 2) {
+        if (board[i][j] === null) {
+          break;
+        }
+        if (j < board[i].length - 1 && i > 0 && board[i][j] !== board[i - 1][j + 1]) {
+          break;
+        }
+        similar++;
+      }
     }
   }
-  for(let i = 0; i < board.length; i++) {
-    for(let j = board.length - 1; j >= 0; j--) {
-      if(Math.abs(j - i) !== 1 || j !== i) {
-        continue;
-      }
-      if(board[i][j] === null) {
-        break;
-      }
-      if(j < board.length - 1 && board[i][j] != board[i - 1][j + 1]) {
-        break;
-      }
-    }
-    if(similar === 3) {
-      return true;
-    } else {
-      similar = 0;
-    }
+  if (similar === 3) {
+    return true;
+  } else {
+    similar = 0;
   }
   return false;
 }
