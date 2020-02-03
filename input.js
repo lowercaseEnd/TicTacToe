@@ -34,7 +34,11 @@ class UserInput {
     if (isNaN(numberColumn) || isNaN(numberRow)) {
       return false;
     }
-    
+    let isEmptyRow = parseInt(userInput[0]);
+    let isEmptyColumn = parseInt(userInput[1]);
+    if (isNaN(isEmptyRow) || isNaN(isEmptyColumn)) {
+      return false;
+    }
     //check if numbers are in range
     if (numberRow - 1 >= board.length || numberColumn - 1 >= board[0].length) {
       return false;
