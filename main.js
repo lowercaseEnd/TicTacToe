@@ -2,6 +2,8 @@
 "use strict";
 
 const readline = require("readline");
+//exports for testing
+let exp = (module.exports = {});
 
 //variable to track current move, starts with x.
 let move = "x";
@@ -34,6 +36,7 @@ async function playGame() {
 }
 
 //init board
+// exp.initBoard = (row = 3, column = 3) => {
 function initBoard(row = 3, column = 3) {
   //force board to be a square
   if (row !== column) {
@@ -107,7 +110,8 @@ function changePlayer(move) {
 }
 
 //check for a winner
-let isGameFinished = (board) => {
+// exp.isGameFinished = (board) => {
+function isGameFinished(board) {
   let similar = 0;
   //rows
   for (let i = 0; i < board.length; i++) {
@@ -132,9 +136,10 @@ let isGameFinished = (board) => {
       if (board[j][i] === null) {
         break;
       }
-      if (j > 0 && board[j][i] != board[j][i - 1]) {
+      if (j > 0 && board[j][i] != board[j - 1][i]) {
         break;
       }
+      similar++;
     }
     if (similar === 3) {
       return true;
@@ -164,7 +169,11 @@ let isGameFinished = (board) => {
         if (board[i][j] === null) {
           break;
         }
-        if (j < board[i].length - 1 && i > 0 && board[i][j] !== board[i - 1][j + 1]) {
+        if (
+          j < board[i].length - 1 &&
+          i > 0 &&
+          board[i][j] !== board[i - 1][j + 1]
+        ) {
           break;
         }
         similar++;
@@ -179,8 +188,9 @@ let isGameFinished = (board) => {
   return false;
 }
 //check for a draw
-let exp = module.exports = {};
-exp.isDraw = function (board) {
+
+// exp.isDraw = function (board) {
+function isDraw(board) {
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
       if (board[i][j] === null) {
@@ -220,6 +230,3 @@ function printBoard(board) {
   }
   console.log(prettyPrint);
 }
-
-
-//exports for tests
