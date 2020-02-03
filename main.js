@@ -1,8 +1,8 @@
 //Tic Tac Toe game
 "use strict";
 
-const boardModule = require("./board");
-const userInput = require("./input");
+const Board = require("./board");
+const UserInput = require("./input");
 const GameEnd = require("./gameEnd");
 
 //exports for testing
@@ -11,14 +11,14 @@ const GameEnd = require("./gameEnd");
 let playerValue = "x";
 playGame();
 async function playGame() {
-  // let t = new userInput();
-  let board = new boardModule();
+  // let t = new UserInput();
+  let board = new Board();
   let playGround = board.initBoard(); 
   while (true) {
     board.printBoard(playGround);
     let move;
-    await userInput.getCoordinates().then(res => (move = res));
-    if (userInput.isInputCorrect(move, playGround)) {
+    await UserInput.getCoordinates().then(res => (move = res));
+    if (UserInput.isInputCorrect(move, playGround)) {
       playGround = makeMove(move, playGround);
     } else {
       console.log("You've entered wrong values.");
