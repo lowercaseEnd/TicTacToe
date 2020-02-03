@@ -1,4 +1,4 @@
-const board = require("../Board");
+const board = require("../board");
 
 test("Board should init cells with nulls", () => {
   let test = new board();

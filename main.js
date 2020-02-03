@@ -3,21 +3,23 @@
 
 const readline = require("readline");
 
-const boardModule = require("./Board");
+const boardModule = require("./board");
+const userInput = require("./input");
 //exports for testing
-
+console.log(module.children[1]);
 //variable to track current move, starts with x.
 let move = "x";
 playGame();
 async function playGame() {
+  // let t = new userInput();
   let board = new boardModule();
   let playGround = board.initBoard(); 
   while (true) {
     board.printBoard(playGround);
-    let userInput;
-    await getCoordinates().then(res => (userInput = res));
-    if (isInputCorrect(userInput, playGround)) {
-      board = makeMove(userInput, playGround);
+    let move;
+    await userInput.getCoordinates().then(res => (move = res));
+    if (userInput.isInputCorrect(move, playGround)) {
+      playGround = makeMove(move, playGround);
     } else {
       console.log("You've entered wrong values.");
       continue;

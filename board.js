@@ -1,7 +1,6 @@
 class Board {
   constructor() {}
   //init board
-  // exp.initBoard = (row = 3, column = 3) => {
   initBoard(row = 3, column = 3) {
     //force board to be a square
     if (row !== column) {
