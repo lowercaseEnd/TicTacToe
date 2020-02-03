@@ -5,9 +5,9 @@ const boardModule = require("./board");
 const userInput = require("./input");
 
 //exports for testing
-console.log(module.children[1]);
+// console.log(module.children[1]);
 //variable to track current move, starts with x.
-let move = "x";
+let playerValue = "x";
 playGame();
 async function playGame() {
   // let t = new userInput();
@@ -25,7 +25,7 @@ async function playGame() {
     }
     board.printBoard(playGround);
     if (isGameFinished(playGround)) {
-      console.log(`Player ${move} has won.`);
+      console.log(`Player ${playerValue} has won.`);
       break;
     }
     if (isDraw(playGround)) {
@@ -33,7 +33,7 @@ async function playGame() {
       break;
     }
     //change current playerr
-    move = changePlayer(move);
+    playerValue = changePlayer(playerValue);
   }
   console.log("Test");
 }
@@ -41,7 +41,7 @@ async function playGame() {
 //make a move
 function makeMove(coords, board) {
   let tempBoard = board;
-  tempBoard[coords[0] - 1][coords[1] - 1] = move;
+  tempBoard[coords[0] - 1][coords[1] - 1] = playerValue;
   //change move
 
   return tempBoard;
