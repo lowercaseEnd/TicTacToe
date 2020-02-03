@@ -107,7 +107,7 @@ function changePlayer(move) {
 }
 
 //check for a winner
-function isGameFinished(board) {
+let isGameFinished = (board) => {
   let similar = 0;
   //rows
   for (let i = 0; i < board.length; i++) {
@@ -128,7 +128,7 @@ function isGameFinished(board) {
   }
   //columns
   for (let i = 0; i < board.length; i++) {
-    for (let j = 0; j < board.length; j++) {
+    for (let j = 0; j < board[i].length; j++) {
       if (board[j][i] === null) {
         break;
       }
@@ -179,7 +179,8 @@ function isGameFinished(board) {
   return false;
 }
 //check for a draw
-function isDraw(board) {
+let exp = module.exports = {};
+exp.isDraw = function (board) {
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
       if (board[i][j] === null) {
@@ -219,3 +220,6 @@ function printBoard(board) {
   }
   console.log(prettyPrint);
 }
+
+
+//exports for tests
