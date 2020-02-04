@@ -33,32 +33,39 @@ class Controller {
     }
   }
   //player vs ai
-  // playerAI() {
-  //   let board = new this.Board();
-  //   let playGround = board.initBoard();
-  //   while (true) {
-  //     board.printBoard(playGround);
-  //     let move;
-  //     await this.UserInput.getCoordinates().then(res => (move = res));
-  //     if (this.UserInput.isInputCorrect(move, playGround)) {
-  //       playGround = this.makeMove(move, playGround);
-  //     } else {
-  //       console.log("You've entered wrong values.");
-  //       continue;
-  //     }
-  //     board.printBoard(playGround);
-  //     if (this.GameEnd.isGameFinished(playGround)) {
-  //       console.log(`Player ${this.playerValue} has won.`);
-  //       break;
-  //     }
-  //     if (this.GameEnd.isDraw(playGround)) {
-  //       console.log("Draw");
-  //       break;
-  //     }
-  //     //change current playerr
-  //     this.playerValue = this.changePlayer(this.playerValue);
-  //   }
-  // }
+  async playerAI() {
+    let board = new this.Board();
+    let playGround = board.initBoard();
+    while (true) {
+      board.printBoard(playGround);
+      //assume player is x
+      let move;
+      if(this.playerValue === "x") {
+        await this.UserInput.getCoordinates().then(res => (move = res));
+      } else {
+        move = this.aiMove();
+      }
+      if (this.UserInput.isInputCorrect(move, playGround)) {
+        playGround = this.makeMove(move, playGround);
+      } else {
+        if(this.playerValue === "x") {
+          console.log("You've entered wrong values.");
+        }
+        continue;
+      }
+      board.printBoard(playGround);
+      if (this.GameEnd.isGameFinished(playGround)) {
+        console.log(`Player ${this.playerValue} has won.`);
+        break;
+      }
+      if (this.GameEnd.isDraw(playGround)) {
+        console.log("Draw");
+        break;
+      }
+      //change current playerr
+      this.playerValue = this.changePlayer(this.playerValue);
+    }
+  }
   //ai vs ai
   aiOnly() {
     let board = new this.Board();

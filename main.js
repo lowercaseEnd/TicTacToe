@@ -10,18 +10,19 @@ const Controller = require("./classes/controller");
 
 let controller = new Controller(Board, UserInput, GameEnd);
 // controller.playGame();
-f();
-async function f() {
+userPrompt();
+async function userPrompt() {
   let correct = false;
   while (!correct) {
     let answer;
-    await t().then(response => {
+    await userAnswer().then(response => {
       answer = response;
   })
   if(answer === "1") {
     controller.playGame();
     correct = true;
   } else if (answer === "2") {
+    controller.playerAI();
     correct = true;
   } else if (answer === "3") {
     controller.aiOnly();
@@ -34,12 +35,12 @@ async function f() {
 }
 }
 
-function t() {
+function userAnswer() {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
-  let cli = new Promise(resolve => {
+  return new Promise(resolve => {
     rl.question(
       "1.Two players\n2.Player vs AI\n3.AI vs AI\n4.Quit\n",
       answer => {
@@ -48,5 +49,4 @@ function t() {
       }
     );
   });
-  return cli;
 }
