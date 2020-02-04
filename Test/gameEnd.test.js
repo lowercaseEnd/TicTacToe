@@ -1,4 +1,4 @@
-const GameEnd = require("../gameEnd");
+const GameEnd = require("../classes/gameEnd");
 
 test("Should return false on non complete column", () => {
   expect(GameEnd.isGameFinished([["x", null, null], [null, null, null], ["x", null, null]])).toBe(false);

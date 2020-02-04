@@ -1,4 +1,4 @@
-const UserInput = require("../input");
+const UserInput = require("../classes/input");
 
 test("Should return false on a non empty cell", () => {
   expect(UserInput.isInputCorrect([1, 1], [["x", "x", "x"], ["x", "x", "x"], ["x", "x", "x"]])).toBe(false);

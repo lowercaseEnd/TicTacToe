@@ -17,7 +17,6 @@ class UserInput {
       });
     }).then(row => {
       return new Promise(resolve => {
-        rl.resume();
         rl.question("Enter column: ", column => {
           rl.close();
           resolve([row, column]);
