@@ -9,8 +9,8 @@ class Controller {
     // let t = new UserInput();
     let board = new this.Board();
     let playGround = board.initBoard();
+    board.printBoard(playGround);
     while (true) {
-      board.printBoard(playGround);
       let move;
       await this.UserInput.getCoordinates().then(res => (move = res));
       if (this.UserInput.isInputCorrect(move, playGround)) {
@@ -36,8 +36,8 @@ class Controller {
   async playerAI() {
     let board = new this.Board();
     let playGround = board.initBoard();
+    board.printBoard(playGround);
     while (true) {
-      board.printBoard(playGround);
       //assume player is x
       let move;
       if(this.playerValue === "x") {
@@ -67,11 +67,12 @@ class Controller {
     }
   }
   //ai vs ai
+  //todo: add a delay between moves
   aiOnly() {
     let board = new this.Board();
     let playGround = board.initBoard();
+    board.printBoard(playGround);
     while (true) {
-      board.printBoard(playGround);
       let move = this.aiMove();
       if (this.UserInput.isInputCorrect(move, playGround)) {
         playGround = this.makeMove(move, playGround);

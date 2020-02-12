@@ -9,7 +9,6 @@ const GameEnd = require("./classes/gameEnd");
 const Controller = require("./classes/controller");
 
 let controller = new Controller(Board, UserInput, GameEnd);
-// controller.playGame();
 userPrompt();
 async function userPrompt() {
   let correct = false;
@@ -17,22 +16,22 @@ async function userPrompt() {
     let answer;
     await userAnswer().then(response => {
       answer = response;
-  })
-  if(answer === "1") {
-    controller.playGame();
-    correct = true;
-  } else if (answer === "2") {
-    controller.playerAI();
-    correct = true;
-  } else if (answer === "3") {
-    controller.aiOnly();
-    correct = true;
-  } else if (answer === "4") {
-    correct = true;
-  } else {
-    console.log("Enter valid number");
+    });
+    if (answer === "1") {
+      controller.playGame();
+      correct = true;
+    } else if (answer === "2") {
+      controller.playerAI();
+      correct = true;
+    } else if (answer === "3") {
+      controller.aiOnly();
+      correct = true;
+    } else if (answer === "4") {
+      correct = true;
+    } else {
+      console.log("Enter valid number");
+    }
   }
-}
 }
 
 function userAnswer() {
