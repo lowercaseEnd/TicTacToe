@@ -9,8 +9,9 @@ class Controller {
     // let t = new UserInput();
     let board = new this.Board();
     let playGround = board.initBoard();
+    let end = false;
     board.printBoard(playGround);
-    while (true) {
+    while (!end) {
       let move;
       await this.UserInput.getCoordinates().then(res => (move = res));
       if (this.UserInput.isInputCorrect(move, playGround)) {
@@ -22,13 +23,13 @@ class Controller {
       board.printBoard(playGround);
       if (this.GameEnd.isGameFinished(playGround)) {
         console.log(`Player ${this.playerValue} has won.`);
-        break;
+        end = true;
       }
       if (this.GameEnd.isDraw(playGround)) {
         console.log("Draw");
-        break;
+        end = true;
       }
-      //change current playerr
+      //change current player
       this.playerValue = this.changePlayer(this.playerValue);
     }
   }
